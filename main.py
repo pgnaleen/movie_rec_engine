@@ -85,7 +85,7 @@ def get_recommendationsn(title, cosine_sim=cosine_simn):
 
 
 def get_recommendations_based_on_pcc(title):
-    dataframe_correlation = pd.read_sql(f"SELECT movie_id_2_title, correlation from rec_engine.movie_pair_correlations_with_movie_id_1_2_titles WHERE movie_id_title = '{title}' ORDER BY correlation DESC LIMIT 5",conn)
+    dataframe_correlation = pd.read_sql(f"SELECT movie_id_2_title, correlation from rec_engine.movie_pair_correlations_with_movie_id_1_2_titles WHERE movie_id_title = '{title}' ORDER BY correlation DESC LIMIT 10",conn)
     print(dataframe_correlation)
     if dataframe_correlation.empty:
         return('This movie is not in our database')
