@@ -1,9 +1,7 @@
 #!/usr/bin/env python
-# coding: utf-8
 
 
 import os
-#Import TfIdfVectorizer from scikit-learn
 from sklearn.feature_extraction.text import TfidfVectorizer
 from pyhive import hive
 import pandas as pd
@@ -23,22 +21,21 @@ dataframe = pd.read_sql("SELECT movies_metadata.title,movies_metadata.overview, 
 
 
 # from hive table C and m
-Cn= dataframe['movies_metadata.vote_average'].mean()
-mn= dataframe['movies_metadata.vote_count'].quantile(0.9)
-print(f"vote_avarage mean [ {Cn} ], vote_count quantile 0.9 [ {mn} ]")
+#Cn= dataframe['movies_metadata.vote_average'].mean()
+#mn= dataframe['movies_metadata.vote_count'].quantile(0.9)
+#print(f"vote_avarage mean [ {Cn} ], vote_count quantile 0.9 [ {mn} ]")
 
 
-def weighted_ratingn(xn, m=mn, C=Cn):
-    v = xn['movies_metadata.vote_count']
-    R = xn['movies_metadata.vote_average']
-    # Calculation based on the IMDB formula
-    return (v/(v+m) * R) + (m/(m+v) * C)
+#def weighted_ratingn(xn, m=mn, C=Cn):
+#    v = xn['movies_metadata.vote_count']
+#    R = xn['movies_metadata.vote_average']
+#    # Calculation based on the IMDB formula
+#    return (v/(v+m) * R) + (m/(m+v) * C)
 
 
 
 # for hive
 tfidfn = TfidfVectorizer(stop_words='english')
-tfidfn_1 = TfidfVectorizer(stop_words='english')
 
 
 # for hive
@@ -69,10 +66,10 @@ def get_recommendationsn(title, cosine_sim=cosine_simn):
         idx = indicesn[title]
         print(f"{idx}\n")
         # Get the pairwsie similarity scores of all movies with that movie
-        print(cosine_sim[idx])
+#        print(cosine_sim[idx])
         
         sim_scores = list(enumerate(cosine_sim[idx]))
-        print(sim_scores)
+ #       print(sim_scores)
 
         # Sort the movies based on the similarity scores
         sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
@@ -88,7 +85,6 @@ def get_recommendationsn(title, cosine_sim=cosine_simn):
 
 
 def get_recommendations_based_on_pcc(title):
-    
     dataframe_correlation = pd.read_sql(f"SELECT movie_id_2_title, correlation from rec_engine.movie_pair_correlations_with_movie_id_1_2_titles WHERE movie_id_title = '{title}' ORDER BY correlation DESC LIMIT 5",conn)
     print(dataframe_correlation)
     if dataframe_correlation.empty:

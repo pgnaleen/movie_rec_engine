@@ -1,2 +1,2 @@
 # movie_rec_engine
-a simple movie recommendation system based on cosine similarity 
+simple movie recommendation systems based on pearson correlation coefficient and cosine similarity 
